@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (2.3.0)
   - AFNetworking (3.2.1):
     - AFNetworking/NSURLSession (= 3.2.1)
     - AFNetworking/Reachability (= 3.2.1)
@@ -14,42 +15,57 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - Braintree/Apple-Pay (4.27.0):
-    - Braintree/Core
-  - Braintree/Card (4.27.0):
-    - Braintree/Core
-  - Braintree/Core (4.27.0)
-  - Braintree/PaymentFlow (4.27.0):
-    - Braintree/Card
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPal (4.27.0):
-    - Braintree/Core
-    - Braintree/PayPalOneTouch
-  - Braintree/PayPalDataCollector (4.27.0):
-    - Braintree/Core
-    - Braintree/PayPalUtils
-  - Braintree/PayPalOneTouch (4.27.0):
-    - Braintree/Core
-    - Braintree/PayPalDataCollector
-    - Braintree/PayPalUtils
-  - Braintree/PayPalUtils (4.27.0)
-  - Braintree/UnionPay (4.27.0):
-    - Braintree/Card
-    - Braintree/Core
-  - Braintree/Venmo (4.27.0):
-    - Braintree/Core
-    - Braintree/PayPalDataCollector
-  - BraintreeDropIn (7.3.0):
-    - BraintreeDropIn/DropIn (= 7.3.0)
-  - BraintreeDropIn/DropIn (7.3.0):
-    - Braintree/Card (~> 4.27)
-    - Braintree/Core (~> 4.27)
-    - Braintree/PaymentFlow (~> 4.27)
-    - Braintree/PayPal (~> 4.27)
-    - Braintree/UnionPay (~> 4.27)
+  - BraintreeApple-Pay (4.28.0):
+    - BraintreeApple-Pay/Apple-Pay (= 4.28.0)
+  - BraintreeApple-Pay/Apple-Pay (4.28.0):
+    - BraintreeCore
+  - BraintreeCard (4.28.0):
+    - BraintreeCard/Card (= 4.28.0)
+  - BraintreeCard/Card (4.28.0):
+    - BraintreeCore
+  - BraintreeCore (4.28.0):
+    - BraintreeCore/Core (= 4.28.0)
+  - BraintreeCore/Core (4.28.0)
+  - BraintreeDropIn (7.4.0):
+    - BraintreeDropIn/DropIn (= 7.4.0)
+  - BraintreeDropIn/DropIn (7.4.0):
+    - ActionSheetPicker-3.0 (~> 2.3.0)
+    - BraintreeCard (~> 4.27)
+    - BraintreeCore (~> 4.27)
     - BraintreeDropIn/UIKit
-  - BraintreeDropIn/UIKit (7.3.0)
+    - BraintreePaymentFlow (~> 4.27)
+    - BraintreePayPal (~> 4.27)
+    - BraintreeUnionPay (~> 4.27)
+  - BraintreeDropIn/UIKit (7.4.0)
+  - BraintreePaymentFlow (4.28.0):
+    - BraintreePaymentFlow/PaymentFlow (= 4.28.0)
+  - BraintreePaymentFlow/PaymentFlow (4.28.0):
+    - BraintreeCard
+    - BraintreeCore
+    - BraintreePayPal/PayPalOneTouch
+  - BraintreePayPal (4.28.0):
+    - BraintreePayPal/PayPal (= 4.28.0)
+  - BraintreePayPal/PayPal (4.28.0):
+    - BraintreeCore
+    - BraintreePayPal/PayPalOneTouch
+  - BraintreePayPal/PayPalDataCollector (4.28.0):
+    - BraintreeCore
+    - BraintreePayPal/PayPalUtils
+  - BraintreePayPal/PayPalOneTouch (4.28.0):
+    - BraintreeCore
+    - BraintreePayPal/PayPalDataCollector
+    - BraintreePayPal/PayPalUtils
+  - BraintreePayPal/PayPalUtils (4.28.0)
+  - BraintreeUnionPay (4.28.0):
+    - BraintreeUnionPay/UnionPay (= 4.28.0)
+  - BraintreeUnionPay/UnionPay (4.28.0):
+    - BraintreeCard
+    - BraintreeCore
+  - BraintreeVenmo (4.28.0):
+    - BraintreeVenmo/Venmo (= 4.28.0)
+  - BraintreeVenmo/Venmo (4.28.0):
+    - BraintreeCore
+    - BraintreePayPal/PayPalDataCollector
   - CardIO (5.4.1)
   - Expecta (1.0.6)
   - InAppSettingsKit (2.12)
@@ -71,12 +87,16 @@ PODS:
   - Specta (1.0.7)
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0
   - AFNetworking
-  - Braintree/Apple-Pay
-  - Braintree/PaymentFlow
-  - Braintree/PayPal
-  - Braintree/Venmo
+  - BraintreeApple-Pay (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
+  - BraintreeCard (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
+  - BraintreeCore (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
   - BraintreeDropIn (from `./`)
+  - BraintreePaymentFlow (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
+  - BraintreePayPal (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
+  - BraintreeUnionPay (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
+  - BraintreeVenmo (from `https://github.com/BeckTaxi/braintree_ios.git`, commit `6e959823f468d408d0362cbbf6c1c57aa16a23f5`)
   - CardIO
   - Expecta
   - InAppSettingsKit
@@ -87,8 +107,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ActionSheetPicker-3.0
     - AFNetworking
-    - Braintree
     - CardIO
     - Expecta
     - InAppSettingsKit
@@ -98,13 +118,64 @@ SPEC REPOS:
     - Specta
 
 EXTERNAL SOURCES:
+  BraintreeApple-Pay:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeCard:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeCore:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
   BraintreeDropIn:
     :path: "./"
+  BraintreePaymentFlow:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreePayPal:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeUnionPay:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeVenmo:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+
+CHECKOUT OPTIONS:
+  BraintreeApple-Pay:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeCard:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeCore:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreePaymentFlow:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreePayPal:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeUnionPay:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
+  BraintreeVenmo:
+    :commit: 6e959823f468d408d0362cbbf6c1c57aa16a23f5
+    :git: https://github.com/BeckTaxi/braintree_ios.git
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: eef157d75e151f255c5333d26656c7fbfe905a51
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  Braintree: 981b1e669af6862e1d5b2dbb5c4a6d8d33a11907
-  BraintreeDropIn: 0a946f87a60efed56189b02416915a6d9ee8c1d6
+  BraintreeApple-Pay: 1d4709712254800e8823ef46782778941cf03a61
+  BraintreeCard: f746199d47835c99257222d3e4e1e87eded5599b
+  BraintreeCore: cc19196262590ab3ee94590e48e4999b6155812a
+  BraintreeDropIn: 18f67628d7006a597960afbea28392f6bdf0f05b
+  BraintreePaymentFlow: 4c46966b98e57d2adafbce9d366267887b47e1ac
+  BraintreePayPal: 0a25d3c1a779c2db05f7026bac1ffe4d577c5daf
+  BraintreeUnionPay: 3a72826b10ac685c4b1953ed6fb544ad44d27859
+  BraintreeVenmo: 42a4a4b716686cc60ccfd3cf7ee9e61614bd2620
   CardIO: 56983b39b62f495fc6dae9ad7cf875143df06443
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   InAppSettingsKit: 363ed5ea061ebcb76d69ca1eed08c8a4fe48baf2
@@ -113,6 +184,6 @@ SPEC CHECKSUMS:
   PureLayout: f08c01b8dec00bb14a1fefa3de4c7d9c265df85e
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
 
-PODFILE CHECKSUM: 07e21b0fdaccd1950a97f88cf78d4a7ead3db17d
+PODFILE CHECKSUM: 692e3817653105944069ba3d7d5b3dc695b4a67e
 
 COCOAPODS: 1.7.5

@@ -3,6 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class BTPostalAddress, BTPayPalRequest, BTThreeDSecureRequest;
+@class BTCreditCardFormDefaults;
 
 typedef NS_ENUM(NSInteger, BTFormFieldSetting) {
     BTFormFieldDisabled = 0,
@@ -70,6 +71,8 @@ typedef NS_ENUM(NSInteger, BTFormFieldSetting) {
 /// Optional: When true, the card form will include an option to let the customer decide not to vault the card.
 /// Defaults to false
 @property (nonatomic, assign) BOOL allowVaultCardOverride;
+@property (nonatomic, strong, nullable) BTCreditCardFormDefaults* creditCardFormDefaults;
+
 
 @end
 

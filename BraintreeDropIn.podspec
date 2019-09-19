@@ -27,12 +27,13 @@ Pod::Spec.new do |s|
     s.source_files  = "BraintreeDropIn/**/*.{h,m}"
     s.public_header_files = "BraintreeDropIn/Public/*.h"
     s.frameworks = "UIKit"
-    s.dependency "Braintree/Card", "~> 4.27"
-    s.dependency "Braintree/Core", "~> 4.27"
-    s.dependency "Braintree/UnionPay", "~> 4.27"
-    s.dependency "Braintree/PaymentFlow", "~> 4.27"
-    s.dependency "Braintree/PayPal", "~> 4.27"
+    s.dependency "BraintreeCard", "~> 4.27"
+    s.dependency "BraintreeCore", "~> 4.27"
+    s.dependency "BraintreeUnionPay", "~> 4.27"
+    s.dependency "BraintreePaymentFlow", "~> 4.27"
+    s.dependency "BraintreePayPal", "~> 4.27"
     s.dependency "BraintreeDropIn/UIKit"
+    s.dependency "ActionSheetPicker-3.0", "~> 2.3.0"
   end
 
   s.subspec "UIKit" do |s|
@@ -43,4 +44,3 @@ Pod::Spec.new do |s|
       "Braintree-UIKit-Localization" => ["BraintreeUIKit/Localization/*.lproj"] }
   end
 end
-

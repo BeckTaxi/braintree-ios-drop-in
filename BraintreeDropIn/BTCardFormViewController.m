@@ -27,7 +27,9 @@
 #import <BraintreePaymentFlow/BraintreePaymentFlow.h>
 #endif
 
-@interface BTCardFormViewController ()
+#import "BTCreditCardFormDefaults.h"
+
+@interface BTCardFormViewController () <BTViewControllerPresentingDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *scrollViewContentWrapper;
@@ -36,7 +38,12 @@
 @property (nonatomic, strong, readwrite) BTUIKCardholderNameFormField *cardholderNameField;
 @property (nonatomic, strong, readwrite) BTUIKExpiryFormField *expirationDateField;
 @property (nonatomic, strong, readwrite) BTUIKSecurityCodeFormField *securityCodeField;
+
+@property (nonatomic, strong, readwrite) BTUIKStreetAddressFormField* streetAddressField;
+@property (nonatomic, strong, readwrite) BTUIKCityFormField* cityField;
+@property (nonatomic, strong, readwrite) BTUIKCountryFormField* countryField;
 @property (nonatomic, strong, readwrite) BTUIKPostalCodeFormField *postalCodeField;
+
 @property (nonatomic, strong, readwrite) BTUIKMobileCountryCodeFormField *mobileCountryCodeField;
 @property (nonatomic, strong, readwrite) BTUIKMobileNumberFormField *mobilePhoneField;
 @property (nonatomic, strong, readwrite) BTUIKSwitchFormField *shouldVaultCardSwitchField;
@@ -64,10 +71,16 @@
 + (id)initWithPaymentDelegate:id;
 + (BOOL)canReadCardWithCamera;
 @property (nonatomic, strong) NSString *cardNumber;
+@property (nonatomic) unsigned long long expiryMonth;
+@property (nonatomic) unsigned long long expiryYear;
 @property (nonatomic, assign, readwrite) BOOL hideCardIOLogo;
 @property (nonatomic, retain, readwrite) UIColor *navigationBarTintColor;
 @property (nonatomic, assign, readwrite) BOOL collectExpiry;
 @property (nonatomic, assign, readwrite) BOOL collectCVV;
+@property(nonatomic, retain, readwrite) UIColor *guideColor;
+@property(nonatomic, assign, readwrite) BOOL suppressScannedCardImage;
+@property(nonatomic, assign, readwrite) BOOL suppressScanConfirmation;
+@property(nonatomic, assign, readwrite) BOOL disableManualEntryButtons;
 @end
 
 @implementation BTCardFormViewController
@@ -190,8 +203,22 @@
     self.securityCodeField = [[BTUIKSecurityCodeFormField alloc] init];
     self.securityCodeField.delegate = self;
     self.securityCodeField.textField.secureTextEntry = self.dropInRequest.shouldMaskSecurityCode;
+    
+    self.cardholderNameField = [[BTUIKCardholderNameFormField alloc] init];
+    self.cardholderNameField.delegate = self;
+    
+    self.streetAddressField = [[BTUIKStreetAddressFormField alloc] init];
+    self.streetAddressField.delegate = self;
+    
+    self.cityField = [[BTUIKCityFormField alloc] init];
+    self.cityField.delegate = self;
+    
+    self.countryField = [[BTUIKCountryFormField alloc] init];
+    self.countryField.delegate = self;
+    
     self.postalCodeField = [[BTUIKPostalCodeFormField alloc] init];
     self.postalCodeField.delegate = self;
+    
     self.mobileCountryCodeField = [[BTUIKMobileCountryCodeFormField alloc] init];
     self.mobileCountryCodeField.delegate = self;
     self.mobilePhoneField = [[BTUIKMobileNumberFormField alloc] init];
@@ -208,9 +235,9 @@
     [self.cardNumberHeader addArrangedSubview:cardNumberHeaderLabel];
     [BTDropInUIUtilities addSpacerToStackView:self.cardNumberHeader beforeView:cardNumberHeaderLabel size: [BTUIKAppearance verticalFormSpace]];
     [self.stackView addArrangedSubview:self.cardNumberHeader];
-
-    self.formFields = @[self.cardNumberField, self.cardholderNameField, self.expirationDateField, self.securityCodeField, self.postalCodeField, self.mobileCountryCodeField, self.mobilePhoneField];
-
+    
+    self.formFields = @[self.cardNumberField, self.expirationDateField, self.securityCodeField, self.cardholderNameField, self.streetAddressField, self.cityField, self.countryField, self.postalCodeField, self.mobileCountryCodeField, self.mobilePhoneField];
+    
     for (NSUInteger i = 0; i < self.formFields.count; i++) {
         BTUIKFormField *formField = self.formFields[i];
         [self.stackView addArrangedSubview:formField];
@@ -229,7 +256,13 @@
     self.cardholderNameField.hidden = YES;
     self.expirationDateField.hidden = YES;
     self.securityCodeField.hidden = YES;
+    
+    self.cardholderNameField.hidden = YES;
+    self.streetAddressField.hidden = YES;
+    self.cityField.hidden = YES;
+    self.countryField.hidden = YES;
     self.postalCodeField.hidden = YES;
+    
     self.mobileCountryCodeField.hidden = YES;
     self.mobilePhoneField.hidden = YES;
 
@@ -303,6 +336,10 @@
         [self.requiredFields addObject:self.securityCodeField];
     }
     if ([challenges containsObject:@"postal_code"]) {
+        [self.requiredFields addObject:self.cardholderNameField];
+        [self.requiredFields addObject:self.streetAddressField];
+        [self.requiredFields addObject:self.cityField];
+        [self.requiredFields addObject:self.countryField];
         [self.requiredFields addObject:self.postalCodeField];
     }
 }
@@ -336,10 +373,13 @@
 - (void)presentCardIO {
     Class kCardIOPaymentViewController = NSClassFromString(@"CardIOPaymentViewController");
     id scanViewController = [[kCardIOPaymentViewController alloc] initWithPaymentDelegate:self];
-    [scanViewController setNavigationBarTintColor:[[UINavigationBar appearance] barTintColor]];
+    [scanViewController setNavigationBarTintColor:UIColor.whiteColor];
     [scanViewController setHideCardIOLogo:YES];
     [scanViewController setCollectCVV:NO];
-    [scanViewController setCollectExpiry:NO];
+    [scanViewController setCollectExpiry:YES];
+    [scanViewController setGuideColor:UIColor.whiteColor];
+    [scanViewController setSuppressScanConfirmation:YES];
+    [scanViewController setDisableManualEntryButtons:YES];
     [self presentViewController:scanViewController animated:YES completion:nil];
 }
 
@@ -349,10 +389,21 @@
 
 - (void)userDidProvideCreditCardInfo:(id)info inPaymentViewController:(UIViewController *)scanViewController {
     NSString *cardNumber = [info cardNumber];
+    
+    long expiryMonth = [info expiryMonth];
+    long expiryYear = [info expiryYear];
+    NSString* expirationDate = [NSString stringWithFormat:@"%02li%04li", expiryMonth, expiryYear];
+    
     [scanViewController dismissViewControllerAnimated:YES completion:^{
         [self.cardNumberField setNumber:cardNumber];
         [self.cardNumberField textFieldDidEndEditing:self.cardNumberField.textField];
         [self validateButtonPressed:self.cardNumberField];
+        
+        [self.expirationDateField setExpirationDate:expirationDate];
+        
+        if( self.expirationDateField.valid ) {
+            [self validateButtonPressed:self.expirationDateField];
+        }
     }];
 }
 
@@ -367,6 +418,22 @@
                                   expirationMonth:self.expirationDateField.expirationMonth
                                    expirationYear:self.expirationDateField.expirationYear
                                               cvv:self.securityCodeField.securityCode];
+    
+    if ([self.requiredFields containsObject:self.cardholderNameField]) {
+        card.cardholderName = self.cardholderNameField.cardholderName;
+    }
+    
+    if ([self.requiredFields containsObject:self.streetAddressField]) {
+        card.streetAddress = self.streetAddressField.streetAddress;
+    }
+    
+    if ([self.requiredFields containsObject:self.cityField]) {
+        card.locality = self.cityField.city;
+    }
+    
+    if ([self.requiredFields containsObject:self.countryField]) {
+        card.countryName = self.countryField.country;
+    }
     
     if ([self.requiredFields containsObject:self.postalCodeField]) {
         card.postalCode = self.postalCodeField.postalCode;
@@ -398,7 +465,13 @@
             self.cardholderNameField.hidden = (self.dropInRequest.cardholderNameSetting == BTFormFieldDisabled) || collapsed;
             self.expirationDateField.hidden = collapsed;
             self.securityCodeField.hidden = ![self.requiredFields containsObject:self.securityCodeField] || collapsed;
+            
+            self.cardholderNameField.hidden = ![self.requiredFields containsObject:self.cardholderNameField] || collapsed;
+            self.streetAddressField.hidden = ![self.requiredFields containsObject:self.streetAddressField] || collapsed;
+            self.cityField.hidden = ![self.requiredFields containsObject:self.cityField] || collapsed;
+            self.countryField.hidden = ![self.requiredFields containsObject:self.countryField] || collapsed;
             self.postalCodeField.hidden = ![self.requiredFields containsObject:self.postalCodeField] || collapsed;
+            
             self.mobileCountryCodeField.hidden = ![self.requiredFields containsObject:self.mobileCountryCodeField] || collapsed;
             self.mobilePhoneField.hidden = ![self.requiredFields containsObject:self.mobilePhoneField] || collapsed;
             self.enrollmentFooter.hidden = self.mobilePhoneField.hidden;
@@ -410,7 +483,13 @@
             self.cardholderNameField.hidden = (self.dropInRequest.cardholderNameSetting == BTFormFieldDisabled) || collapsed;
             self.expirationDateField.hidden = collapsed;
             self.securityCodeField.hidden = ![self.requiredFields containsObject:self.securityCodeField] || collapsed;
+            
+            self.cardholderNameField.hidden = ![self.requiredFields containsObject:self.cardholderNameField] || collapsed;
+            self.streetAddressField.hidden = ![self.requiredFields containsObject:self.streetAddressField] || collapsed;
+            self.cityField.hidden = ![self.requiredFields containsObject:self.cityField] || collapsed;
+            self.countryField.hidden = ![self.requiredFields containsObject:self.countryField] || collapsed;
             self.postalCodeField.hidden = ![self.requiredFields containsObject:self.postalCodeField] || collapsed;
+            
             self.mobileCountryCodeField.hidden = ![self.requiredFields containsObject:self.mobileCountryCodeField] || collapsed;
             self.mobilePhoneField.hidden = ![self.requiredFields containsObject:self.mobilePhoneField] || collapsed;
             self.enrollmentFooter.hidden = self.mobilePhoneField.hidden;
@@ -434,12 +513,35 @@
     addButton.bold = YES;
     self.navigationItem.rightBarButtonItem = addButton;
     
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+    //self.navigationItem.rightBarButtonItem.enabled = NO;
     
     for (BTUIKFormField *formField in self.formFields) {
         formField.text = @"";
         formField.hidden = YES;
     }
+    
+    [self.cityField resetTextFieldText];
+    [self.countryField resetTextFieldText];
+    
+    BTCreditCardFormDefaults* formFieldDefaults = self.dropInRequest.creditCardFormDefaults;
+    if (formFieldDefaults != nil) {
+        if (formFieldDefaults.cardholderName != nil) {
+            self.cardholderNameField.cardholderName = formFieldDefaults.cardholderName;
+        }
+        
+        if (formFieldDefaults.streedAddress != nil) {
+            self.streetAddressField.streetAddress = formFieldDefaults.streedAddress;
+        }
+        
+        if (formFieldDefaults.city != nil) {
+            self.cityField.city = formFieldDefaults.city;
+        }
+        
+        if (formFieldDefaults.postalCode != nil) {
+            self.postalCodeField.postalCode = formFieldDefaults.postalCode;
+        }
+    }
+    
     // Using ivar so that setter is not called
     _collapsed = YES;
     self.unionPayEnabledMerchant = NO;
@@ -489,8 +591,8 @@
     self.mobileCountryCodeField.topBorder = YES;
     self.mobileCountryCodeField.interFieldBorder = YES;
     self.mobilePhoneField.bottomBorder = YES;
-
-    NSArray *groupedFormFields = @[self.cardholderNameField, self.expirationDateField, self.securityCodeField, self.postalCodeField];
+    
+    NSArray *groupedFormFields = @[self.expirationDateField, self.securityCodeField, self.cardholderNameField, self.streetAddressField, self.cityField, self.countryField, self.postalCodeField];
     BOOL topBorderAdded = NO;
     BTUIKFormField* lastVisibleFormField;
     for (NSUInteger i = 0; i < groupedFormFields.count; i++) {
@@ -526,9 +628,9 @@
 
 - (void)updateSubmitButton {
     if (!self.collapsed && [self isFormValid]) {
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        //self.navigationItem.rightBarButtonItem.enabled = YES;
     } else {
-        self.navigationItem.rightBarButtonItem.enabled = NO;
+        //self.navigationItem.rightBarButtonItem.enabled = NO;
     }
 }
 
@@ -536,6 +638,12 @@
     NSUInteger currentIdx = [self.requiredFields indexOfObject:currentField];
     if (currentIdx < [self.requiredFields count] - 1) {
         [[self.requiredFields objectAtIndex:currentIdx + 1] becomeFirstResponder];
+    } else {
+        [currentField resignFirstResponder];
+        [self.view endEditing:true];
+        if (self.isFormValid) {
+            [self tokenizeCard];
+        }
     }
 }
 
@@ -600,7 +708,35 @@
     }
 }
 
+-(void)focusOnFirstIncompleteField {
+    __block BTUIKFormField* incompleteField;
+    
+    [self.requiredFields enumerateObjectsUsingBlock:^(BTUIKFormField * _Nonnull formField, __unused NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![self.optionalFields containsObject:formField] && !formField.valid) {
+            *stop = YES;
+            incompleteField = formField;
+        }
+    }];
+    [incompleteField becomeFirstResponder];
+}
+
 - (void)tokenizeCard {
+    
+    if(![self isFormValid]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __weak __typeof__(self) weakSelf = self;
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Missing Info" message:@"Missing Credit Card Details.\nPlease complete all required fields and try again." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *alertAction = [UIAlertAction actionWithTitle:BTUIKLocalizedString(TOP_LEVEL_ERROR_ALERT_VIEW_OK_BUTTON_TEXT)
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction * __unused _Nonnull action) {
+                [weakSelf focusOnFirstIncompleteField];
+            }];
+            [alertController addAction: alertAction];
+            [self.navigationController presentViewController:alertController animated:YES completion:nil];
+        });
+        return;
+    }
+    
     [self.view endEditing:YES];
 
     if (self.cardCapabilities != nil && self.cardCapabilities.isUnionPay && self.cardCapabilities.isSupported) {
@@ -821,17 +957,28 @@
         if (cardType != nil && formField.text.length >= cardType.validCvvLength) {
             [self advanceFocusFromField:formField];
         }
+    } else if (formField == self.countryField && formField.text.length > 0) {
+        [self advanceFocusFromField:formField];
     }
 }
 
 - (BOOL)formFieldShouldReturn:(BTUIKFormField *)formField {
-    if (formField == self.cardholderNameField) {
+    if(formField.valid) {
         [self advanceFocusFromField:formField];
+        return YES;
+    } else {
         return NO;
     }
-
-    return YES;
 }
+
+//- (BOOL)formFieldShouldReturn:(BTUIKFormField *)formField {
+//    if (formField == self.cardholderNameField) {
+//        [self advanceFocusFromField:formField];
+//        return NO;
+//    }
+//
+//    return YES;
+//}
 
 #pragma mark UITextFieldDelegate
 

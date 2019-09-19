@@ -1,5 +1,7 @@
 #import "BTUIKCardholderNameFormField.h"
 #import "BTUIKLocalizedString.h"
+#import "BTUIKTextField.h"
+#import "BTUIKInputAccessoryToolbar.h"
 
 @implementation BTUIKCardholderNameFormField
 
@@ -8,9 +10,12 @@
     if (self) {
         self.textField.accessibilityLabel = BTUIKLocalizedString(CARDHOLDER_NAME_LABEL);
         self.formLabel.text = BTUIKLocalizedString(CARDHOLDER_NAME_LABEL);
-
+        
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.textField.placeholder = @"John Appleseed";
+        self.textField.keyboardType = UIKeyboardTypeDefault;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        self.textField.spellCheckingType = UITextSpellCheckingTypeNo;
         self.textField.returnKeyType = UIReturnKeyNext;
     }
 
@@ -19,6 +24,10 @@
 
 - (NSString *)cardholderName {
     return self.textField.text;
+}
+
+-(void)setCardholderName:(NSString *)cardholderName {
+    self.textField.text = cardholderName;
 }
 
 - (BOOL)valid {
@@ -35,6 +44,11 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
     return newText.length <= 255;
+}
+
+- (void)fieldContentDidChange {
+    [self.delegate formFieldDidChange:self];
+    [self updateAppearance];
 }
 
 @end

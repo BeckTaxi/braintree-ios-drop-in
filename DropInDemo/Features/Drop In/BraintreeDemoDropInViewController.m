@@ -11,6 +11,7 @@
 #import "BraintreePaymentFlow.h"
 #import "BraintreePayPal.h"
 
+
 @interface BraintreeDemoDropInViewController () <PKPaymentAuthorizationViewControllerDelegate, BTViewControllerPresentingDelegate>
 
 @property (nonatomic, strong) BTUIKPaymentOptionCardView *paymentMethodTypeIcon;
@@ -236,7 +237,7 @@
     BTDropInRequest *dropInRequest = [[BTDropInRequest alloc] init];
 
     if (self.dropinThemeSwitch.selectedSegmentIndex == 0) {
-        [BTUIKAppearance lightTheme];
+        [BTUIKAppearance lightThemeBeck];
     } else {
         [BTUIKAppearance darkTheme];
     }
@@ -277,6 +278,16 @@
         threeDSecureRequest.shippingMethod = @"01";
         dropInRequest.threeDSecureRequest = threeDSecureRequest;
     }
+
+    BTCreditCardFormDefaults* formDefaults = [BTCreditCardFormDefaults new];
+    
+    formDefaults.cardholderName = @"John Jones";
+    formDefaults.streedAddress = @"1 Main Street Avenue";
+    formDefaults.city = @"North York";
+    formDefaults.country = @"CANADA";
+    formDefaults.postalCode = @"M3S5H1";
+    
+    dropInRequest.creditCardFormDefaults = formDefaults;
 
     BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:self.authorizationString
                                                                            request:dropInRequest

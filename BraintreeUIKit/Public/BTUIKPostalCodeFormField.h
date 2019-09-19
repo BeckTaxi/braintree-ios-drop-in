@@ -4,6 +4,6 @@
 @interface BTUIKPostalCodeFormField : BTUIKFormField
 
 /// The postal code
-@property (nonatomic, strong, readonly) NSString *postalCode;
+@property (nonatomic, strong) NSString *postalCode;
 
 @end

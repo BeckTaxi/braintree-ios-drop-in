@@ -12,3 +12,4 @@ FOUNDATION_EXPORT const unsigned char BraintreeDropInVersionString[];
 #import "BTPaymentSelectionViewController.h"
 #import "BTVaultManagementViewController.h"
 #import "BTDropInRequest.h"
+#import "BTCreditCardFormDefaults.h"

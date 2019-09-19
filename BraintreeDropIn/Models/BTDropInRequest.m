@@ -1,4 +1,5 @@
 #import "BTDropInRequest.h"
+
 #if __has_include("BraintreeCore.h")
 #import "BTPostalAddress.h"
 #else
@@ -35,6 +36,7 @@
     request.vaultManager = self.vaultManager;
     request.vaultCard = self.vaultCard;
     request.allowVaultCardOverride = self.allowVaultCardOverride;
+    request.creditCardFormDefaults = self.creditCardFormDefaults;
     return request;
 }
 

@@ -280,8 +280,16 @@
     [self setAccessoryHighlighted:NO];
 }
 
-- (BOOL)textField:(__unused UITextField *)textField shouldChangeCharactersInRange:(__unused NSRange)range replacementString:(__unused NSString *)newText {
-    // To be implemented by subclass
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // Fixes issue with space character not rendering properly in right alligned text
+    // only when adding on the end of textfield && it's a space
+    if (range.location == textField.text.length && [string isEqualToString:@" "]) {
+        // ignore replacement string and add your own
+        textField.text = [textField.text stringByAppendingString:@"\u00a0"];
+        return NO;
+    }
+    // for all other cases, proceed with replacement. Override in subclass
+    
     return YES;
 }
 
