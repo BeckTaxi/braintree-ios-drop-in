@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
     s.dependency "BraintreePaymentFlow", "~> 4.27"
     s.dependency "BraintreePayPal", "~> 4.27"
     s.dependency "BraintreeDropIn/UIKit"
-    s.dependency "ActionSheetPicker-3.0", "~> 2.3.0"
+    s.dependency "ActionSheetPicker-3.0", "~> 2.6.0"
   end
 
   s.subspec "UIKit" do |s|
