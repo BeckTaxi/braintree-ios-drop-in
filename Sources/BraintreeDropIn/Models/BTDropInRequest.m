@@ -31,6 +31,7 @@
     request.vaultManager = self.vaultManager;
     request.vaultCard = self.vaultCard;
     request.allowVaultCardOverride = self.allowVaultCardOverride;
+    request.creditCardFormDefaults = self.creditCardFormDefaults;
     return request;
 }
 

@@ -1,4 +1,4 @@
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 
 #import "BTUIKMasterCardVectorArtView.h"
 #import "BTUIKJCBVectorArtView.h"

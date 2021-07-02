@@ -1,5 +1,5 @@
 #import <BraintreeDropIn/BTDropInController.h>
-#import "BTDropInBaseViewController.h"
+#import <BraintreeDropIn/BTDropInBaseViewController.h>
 #import <BraintreeDropIn/BTDropInPaymentMethodType.h>
 
 #if __has_include(<Braintree/BraintreeCore.h>) // CocoaPods

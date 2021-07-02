@@ -1,7 +1,7 @@
 #import "BTUIKAppearance.h"
 #import "BTUIKInputAccessoryToolbar.h"
-#import "BTUIKTextField.h"
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKTextField.h>
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 
 @interface BTUIKTextField () <UITextFieldDelegate>
 @property (nonatomic, copy) NSString *previousText;

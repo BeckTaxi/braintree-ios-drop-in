@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "BTUIKCardType.h"
+#import <BraintreeDropIn/BTUIKCardType.h>
 #import "BTUIKUtil.h"
 
 #define kDefaultFormatSpaceIndices @[@4, @8, @12, @16]

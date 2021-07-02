@@ -10,6 +10,7 @@ static BTUIKAppearance *sharedTheme;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedTheme = [BTUIKAppearance new];
+        [BTUIKAppearance lightThemeBeck];
     });
     
     return sharedTheme;
@@ -46,6 +47,8 @@ static BTUIKAppearance *sharedTheme;
     self.captionFont = [UIFont captionFontForFontFamily:uiCustomization.fontFamily useStaticSize:uiCustomization.disableDynamicType];
     self.staticCaptionFont = [UIFont captionFontForFontFamily:uiCustomization.fontFamily useStaticSize:YES];
     self.staticTitleFont = [UIFont titleFontForFontFamily:uiCustomization.fontFamily useStaticSize:YES];
+
+    [BTUIKAppearance lightThemeBeck];
 }
 
 - (UIColor *)highlightedTintColor {
@@ -155,5 +158,35 @@ static BTUIKAppearance *sharedTheme;
 - (UIColor *)navigationBarTitleTextColor {
     return _navigationBarTitleTextColor ?: _primaryTextColor;
 }
+
++ (void)lightThemeBeck {
+    sharedTheme.overlayColor = [UIColor btuik_colorFromHex:@"000000" alpha:0.5];
+    sharedTheme.tintColor = [UIColor blackColor];
+    sharedTheme.barBackgroundColor = [UIColor whiteColor];
+    sharedTheme.formBackgroundColor = [UIColor groupTableViewBackgroundColor];
+    sharedTheme.formFieldBackgroundColor = [UIColor whiteColor];
+    sharedTheme.primaryTextColor = [UIColor blackColor];
+    sharedTheme.secondaryTextColor = [UIColor btuik_colorFromHex:@"666666" alpha:1.0];
+    sharedTheme.disabledColor = [UIColor lightGrayColor];
+    sharedTheme.placeholderTextColor = [UIColor lightGrayColor];
+    sharedTheme.lineColor = [UIColor btuik_colorFromHex:@"BFBFBF" alpha:1.0];
+    sharedTheme.errorForegroundColor = [UIColor btuik_colorFromHex:@"ff3b30" alpha:1.0];
+    sharedTheme.blurStyle = UIBlurEffectStyleExtraLight;
+    sharedTheme.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    sharedTheme.useBlurs = YES;
+    sharedTheme.postalCodeFormFieldKeyboardType = UIKeyboardTypeDefault;
+    sharedTheme.switchThumbTintColor =  UIColor.whiteColor;
+    sharedTheme.switchOnTintColor = UIColor.greenColor;
+
+    sharedTheme.bodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    sharedTheme.staticBodyFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    sharedTheme.headlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    sharedTheme.staticHeadlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    sharedTheme.captionFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    sharedTheme.staticCaptionFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    sharedTheme.staticTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleTitle1];
+}
+
+
 
 @end

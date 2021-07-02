@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <BraintreeDropIn/BTDropInPaymentMethodType.h>
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 
 /// @class A UIView containing the BTUIKVectorArtView for a BTDropInPaymentMethodType within a light border.
 @interface BTUIKPaymentOptionCardView : UIView

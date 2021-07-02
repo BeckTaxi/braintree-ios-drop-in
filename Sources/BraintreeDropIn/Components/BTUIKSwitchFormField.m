@@ -1,6 +1,6 @@
 #import "BTUIKAppearance.h"
 #import "BTUIKSwitchFormField.h"
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 
 @interface BTUIKSwitchFormField ()
 

@@ -1,7 +1,7 @@
 #import "BTUIKInputAccessoryToolbar.h"
-#import "BTUIKSecurityCodeFormField.h"
-#import "BTUIKTextField.h"
-#import "BTDropInLocalization_Internal.h"
+#import <BraintreeDropIn/BTUIKSecurityCodeFormField.h>
+#import <BraintreeDropIn/BTUIKTextField.h>
+#import <BraintreeDropIn/BTDropInLocalization_Internal.h>
 
 @interface BTUIKSecurityCodeFormField ()
 

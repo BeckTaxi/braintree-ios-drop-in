@@ -1,8 +1,8 @@
 #import <BraintreeDropIn/BTDropInResult.h>
 #import "BTAPIClient_Internal_Category.h"
 #import "BTPaymentMethodNonce+DropIn.h"
-#import "BTUIKViewUtil.h"
-#import "BTUIKVectorArtView.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
+#import <BraintreeDropIn/BTUIKVectorArtView.h>
 #import "BTUIKPaymentOptionCardView.h"
 
 #if __has_include(<Braintree/BraintreeCore.h>) // CocoaPods

@@ -1,4 +1,4 @@
-#import "BTDropInBaseViewController.h"
+#import <BraintreeDropIn/BTDropInBaseViewController.h>
 #import "BTAPIClient_Internal_Category.h"
 #import "BTUIKAppearance.h"
 
@@ -76,7 +76,7 @@
 #pragma mark - UI Preferences
 
 - (BOOL)prefersStatusBarHidden {
-    return YES;
+    return NO;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {

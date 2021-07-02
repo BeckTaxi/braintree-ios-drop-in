@@ -1,7 +1,7 @@
 #import "BTUIKInputAccessoryToolbar.h"
-#import "BTUIKMobileCountryCodeFormField.h"
-#import "BTUIKTextField.h"
-#import "BTDropInLocalization_Internal.h"
+#import <BraintreeDropIn/BTUIKMobileCountryCodeFormField.h>
+#import <BraintreeDropIn/BTUIKTextField.h>
+#import <BraintreeDropIn/BTDropInLocalization_Internal.h>
 
 @implementation BTUIKMobileCountryCodeFormField
 

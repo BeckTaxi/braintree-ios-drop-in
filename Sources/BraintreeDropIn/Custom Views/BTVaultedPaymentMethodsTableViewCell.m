@@ -1,7 +1,7 @@
 #import "BTVaultedPaymentMethodsTableViewCell.h"
 #import "BTUIPaymentMethodCollectionViewCell.h"
 #import "BTUIKAppearance.h"
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 #import "BTUIKPaymentOptionCardView.h"
 
 #define SAVED_PAYMENT_METHODS_COLLECTION_SPACING 6

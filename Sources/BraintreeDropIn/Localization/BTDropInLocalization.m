@@ -1,4 +1,4 @@
-#import "BTDropInLocalization_Internal.h"
+#import <BraintreeDropIn/BTDropInLocalization_Internal.h>
 
 @implementation BTDropInLocalization
 

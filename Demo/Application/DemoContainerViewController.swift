@@ -67,9 +67,9 @@ class DemoContainerViewController: UIViewController {
         button.frame = navigationController!.navigationBar.bounds
         button.addTarget(self, action: #selector(tappedStatus), for: .touchUpInside)
 
-        if #available(iOS 15, *) {
-            navigationController?.toolbar.scrollEdgeAppearance = navigationController?.toolbar.standardAppearance
-        }
+//        if #available(iOS 15, *) {
+//            navigationController?.toolbar.scrollEdgeAppearance = navigationController?.toolbar.standardAppearance
+//        }
         
         statusItem = UIBarButtonItem(customView: button)
         statusItem?.isEnabled = false

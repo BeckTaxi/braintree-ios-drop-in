@@ -1,6 +1,6 @@
 #import "BTUIKAppearance.h"
 #import "BTUIKPaymentOptionCardView.h"
-#import "BTUIKVectorArtView.h"
+#import <BraintreeDropIn/BTUIKVectorArtView.h>
 
 @interface BTUIKPaymentOptionCardView()
 

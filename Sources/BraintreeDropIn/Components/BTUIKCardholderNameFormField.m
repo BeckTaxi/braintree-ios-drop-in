@@ -1,5 +1,5 @@
-#import "BTUIKCardholderNameFormField.h"
-#import "BTDropInLocalization_Internal.h"
+#import <BraintreeDropIn/BTUIKCardholderNameFormField.h>
+#import <BraintreeDropIn/BTDropInLocalization_Internal.h>
 
 @implementation BTUIKCardholderNameFormField
 
@@ -10,7 +10,10 @@
         self.labelText = BTDropInLocalizedString(CARDHOLDER_NAME_LABEL);
 
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.textField.placeholder = @"John Appleseed";
+        self.textField.keyboardType = UIKeyboardTypeDefault;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        self.textField.spellCheckingType = UITextSpellCheckingTypeNo;
         self.textField.returnKeyType = UIReturnKeyNext;
     }
 
@@ -19,6 +22,10 @@
 
 - (NSString *)cardholderName {
     return self.textField.text;
+}
+
+-(void)setCardholderName:(NSString *)cardholderName {
+    self.textField.text = cardholderName;
 }
 
 - (BOOL)valid {
@@ -47,6 +54,11 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
     return newText.length <= 255;
+}
+
+- (void)fieldContentDidChange {
+    [self.delegate formFieldDidChange:self];
+    [self updateAppearance];
 }
 
 @end

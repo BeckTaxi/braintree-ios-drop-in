@@ -12,6 +12,8 @@ typedef NS_ENUM(NSInteger, BTUIKColorScheme) {
 /// Shared instance used by Form elements
 + (instancetype)sharedInstance;
 
++ (void)lightThemeBeck;
+
 /// Fallback color for the overlay if blur is disabled
 @property (nonatomic, strong) UIColor *overlayColor;
 /// Tint color

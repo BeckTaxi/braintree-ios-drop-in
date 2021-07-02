@@ -12,6 +12,8 @@
 #import <BraintreeThreeDSecure/BTThreeDSecureRequest.h>
 #endif
 
+@class BTCreditCardFormDefaults;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, BTFormFieldSetting) {
@@ -69,6 +71,8 @@ typedef NS_ENUM(NSInteger, BTFormFieldSetting) {
 /// Optional: When true, the card form will include an option to let the customer decide not to vault the card.
 /// Defaults to false
 @property (nonatomic, assign) BOOL allowVaultCardOverride;
+@property (nonatomic, strong, nullable) BTCreditCardFormDefaults* creditCardFormDefaults;
+
 
 /// Optional: Customization options for Braintree Drop-in's user interface.
 @property (nonatomic, strong, nullable) BTDropInUICustomization *uiCustomization;

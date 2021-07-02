@@ -1,5 +1,5 @@
 #import <BraintreeDropIn/BTDropInController.h>
-#import "BTDropInBaseViewController.h"
+#import <BraintreeDropIn/BTDropInBaseViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

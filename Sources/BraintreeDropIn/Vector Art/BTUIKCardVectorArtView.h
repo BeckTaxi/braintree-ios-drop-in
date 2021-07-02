@@ -1,4 +1,4 @@
-#import "BTUIKVectorArtView.h"
+#import <BraintreeDropIn/BTUIKVectorArtView.h>
 
 @interface BTUIKCardVectorArtView : BTUIKVectorArtView
 

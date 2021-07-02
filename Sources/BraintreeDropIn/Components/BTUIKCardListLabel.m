@@ -1,7 +1,7 @@
 #import "BTUIKAppearance.h"
 #import "BTUIKCardListLabel.h"
 #import "BTUIKPaymentOptionCardView.h"
-#import "BTUIKViewUtil.h"
+#import <BraintreeDropIn/BTUIKViewUtil.h>
 
 #import <QuartzCore/QuartzCore.h>
 
